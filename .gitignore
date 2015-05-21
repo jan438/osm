@@ -1,0 +1,7 @@
+bin/
+.classpath
+.settings/
+.project
+.svn/
+src/com/mylab/PostgresConnection.java
+reference.list
