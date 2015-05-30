@@ -12,10 +12,11 @@ import java.sql.SQLException;
 public class OsmCleanup {
 	public static void main(String[] args) {
 		String line = "", nodestr = "", waystr = "", relstr = "";
-		int pos1, pos2, i, j, count_nodes, count_ways, count_rels, node_count = 0, result_count = 0;
-		long[] node = new long[20000];
-		long[] way = new long[10000];
-		long[] rels = new long[10000];
+		int pos1, pos2, i, j, count_nodes, count_ways, count_rels, 
+		    node_count = 0, way_count = 0, rel_count = 0, node_result_count = 0, way_result_count = 0, rel_result_count = 0;
+		long[][] node = new long[3][20000];
+		long[][] way = new long[3][10000];
+		long[][] rels = new long[3][10000];
 		long[] max_lon = new long[3];
 		long[] min_lon = new long[3];
 		long[] max_lat = new long[3];
@@ -47,9 +48,9 @@ public class OsmCleanup {
 						pos2 = line.indexOf("visible=");
 						if ((pos1 > 0) && (pos2 > pos1)) {
 							nodestr = line.substring(pos1 + 9, pos2 - 2);
-							node[count_nodes] = Long.valueOf(nodestr)
+							node[c][count_nodes] = Long.valueOf(nodestr)
 									.longValue();
-							pstmt_node.setLong(1, node[count_nodes]);
+							pstmt_node.setLong(1, node[c][count_nodes]);
 							rs = pstmt_node.executeQuery();
 							i = 0;
 							while (rs.next()) {
@@ -75,8 +76,8 @@ public class OsmCleanup {
 						pos2 = line.indexOf("visible=");
 						if ((pos1 > 0) && (pos2 > pos1)) {
 							waystr = line.substring(pos1 + 8, pos2 - 2);
-							way[count_ways] = Long.valueOf(waystr).longValue();
-							pstmt_way.setLong(1, way[count_ways]);
+							way[c][count_ways] = Long.valueOf(waystr).longValue();
+							pstmt_way.setLong(1, way[c][count_ways]);
 							rs = pstmt_way.executeQuery();
 							i = 0;
 							while (rs.next()) {
@@ -91,8 +92,8 @@ public class OsmCleanup {
 						pos2 = line.indexOf("visible=");
 						if ((pos1 > 0) && (pos2 > pos1)) {
 							relstr = line.substring(pos1 + 13, pos2 - 2);
-							rels[count_rels] = Long.valueOf(relstr).longValue();
-							pstmt_rels.setLong(1, rels[count_rels]);
+							rels[c][count_rels] = Long.valueOf(relstr).longValue();
+							pstmt_rels.setLong(1, rels[c][count_rels]);
 							rs = pstmt_rels.executeQuery();
 							i = 0;
 							while (rs.next()) {
@@ -106,6 +107,8 @@ public class OsmCleanup {
 				br.close();
 				if (c == 1) {
 					node_count = count_nodes;
+					way_count = count_ways;
+					rel_count = count_rels;
 				}
 			}
 		} catch (FileNotFoundException e1) {
@@ -135,12 +138,33 @@ public class OsmCleanup {
 				pstmt_node.setLong(4, min_lon[2]);
 				ResultSet rs = null;
 				rs = pstmt_node.executeQuery();
-				result_count = 0;
+				node_result_count = 0;
 				while (rs.next()) {
 					int llat = rs.getInt("lat");
 					int llon = rs.getInt("lon");
 /*					System.out.println(result_count + " lat: " + llat + " lon: " + llon); */
-					result_count++;
+					node_result_count++;
+				}
+				PreparedStatement pstmt_way = connection
+						.prepareStatement("SELECT * FROM planet_osm_ways WHERE id=?;");
+				way_result_count = 0;
+				for (int l = 0; l < way_count; l++) {
+					pstmt_way.setLong(1, way[1][l]);
+					rs = pstmt_way.executeQuery();
+					while (rs.next()) {
+						way_result_count++;
+					}
+
+				}
+				PreparedStatement pstmt_rel = connection
+						.prepareStatement("SELECT * FROM planet_osm_rels WHERE id=?;");
+				rel_result_count = 0;
+				for (int l = 0; l < rel_count; l++) {
+					pstmt_rel.setLong(1, rels[1][l]);
+					rs = pstmt_rel.executeQuery();
+					while (rs.next()) {
+						rel_result_count++;
+					}
 				}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -150,6 +174,7 @@ public class OsmCleanup {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
-		System.out.println("node count: " + node_count + " result count: " + result_count);
+		System.out.println("node count: " + node_count + " way count: " + way_count + " rel count: " + rel_count);
+		System.out.println("node result count: " + node_result_count + " way result count: " + way_result_count + " rel result count: " + rel_result_count);
 	}
 }
