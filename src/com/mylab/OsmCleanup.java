@@ -136,6 +136,9 @@ public class OsmCleanup {
 				pstmt_node.setLong(2, max_lon[0]);
 				pstmt_node.setLong(3, min_lat[2]);
 				pstmt_node.setLong(4, min_lon[2]);
+				System.out.println(" max lat: " + max_lat[0] + " max lon: " + max_lon[0]);
+				System.out.println(" min lat: " + min_lat[2] + " min lon: " + min_lon[2]);
+
 				ResultSet rs = null;
 				rs = pstmt_node.executeQuery();
 				node_result_count = 0;
