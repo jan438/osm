@@ -33,7 +33,7 @@ public class OsmCleanup3 {
 							relstr = line.substring(pos1 + 13, pos2 - 2);
 							rels = Long.valueOf(relstr).longValue();
 							pstmt_rels.setLong(1, rels);
-							pstmt_rels.executeQuery();
+							pstmt_rels.executeUpdate();
 							count_rels++;
 						}
 					}
@@ -53,7 +53,7 @@ public class OsmCleanup3 {
 							waystr = line.substring(pos1 + 8, pos2 - 2);
 							way = Long.valueOf(waystr).longValue();
 							pstmt_way.setLong(1, way);
-							pstmt_way.executeQuery();
+							pstmt_way.executeUpdate();
 							count_ways++;
 						}
 					}
@@ -74,7 +74,7 @@ public class OsmCleanup3 {
 								node = Long.valueOf(nodestr)
 											.longValue();
 								pstmt_node.setLong(1, node);
-								pstmt_node.executeQuery();
+								pstmt_node.executeUpdate();
 								count_nodes++;
 						}
 					}
