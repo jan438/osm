@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class OsmCleanup3 {
 	public static void main(String[] args) {
 		String line = "", nodestr = "", waystr = "", relstr = "";
-		int pos1, pos2, count_nodes = 0, count_ways = 0, count_rels = 0; 
+		int pos1, pos2, count, count_nodes = 0, count_ways = 0, count_rels = 0; 
 		long node;
 		long way;
 		long rels;
@@ -33,8 +33,8 @@ public class OsmCleanup3 {
 							relstr = line.substring(pos1 + 13, pos2 - 2);
 							rels = Long.valueOf(relstr).longValue();
 							pstmt_rels.setLong(1, rels);
-							pstmt_rels.executeUpdate();
-							count_rels++;
+							count = pstmt_rels.executeUpdate();
+							count_rels = count_rels + count;
 						}
 					}
 				}
@@ -53,8 +53,8 @@ public class OsmCleanup3 {
 							waystr = line.substring(pos1 + 8, pos2 - 2);
 							way = Long.valueOf(waystr).longValue();
 							pstmt_way.setLong(1, way);
-							pstmt_way.executeUpdate();
-							count_ways++;
+							count = pstmt_way.executeUpdate();
+							count_ways = count_ways + count;
 						}
 					}
 				}
@@ -74,8 +74,8 @@ public class OsmCleanup3 {
 								node = Long.valueOf(nodestr)
 											.longValue();
 								pstmt_node.setLong(1, node);
-								pstmt_node.executeUpdate();
-								count_nodes++;
+								count = pstmt_node.executeUpdate();
+								count_nodes = count_nodes + count;
 						}
 					}
 				}
