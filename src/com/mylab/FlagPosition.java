@@ -69,18 +69,12 @@ public class FlagPosition {
 			int se_x = loc_x;
 			int se_y = loc_y;
 			while (se_x == loc_x) {
-				if (temp1[1] > 0)
-					temp1[1] = temp1[1] - delta_x;
-				else
-					temp1[1] = temp1[1] + delta_x;
+				temp1[1] = temp1[1] - delta_x;
 				se_x = getTileX(temp1[1], zoom);
 			}
 			temp2[1] = temp1[1];
 			while (se_y == loc_y) {
-				if (temp1[0] > 0)
-					temp1[0] = temp1[0] + delta_y;
-				else
-					temp1[0] = temp1[0] - delta_y;
+				temp1[0] = temp1[0] + delta_y;
 				se_y = getTileY(temp1[0], zoom);
 			}
 			temp2[0] = temp1[0];
@@ -89,29 +83,16 @@ public class FlagPosition {
 			int nw_x = se_x;
 			int nw_y = se_y;
 			while (nw_x == se_x) {
-				if (temp2[1] > 0)
-					temp2[1] = temp2[1] - delta_x;
-				else
-					temp2[1] = temp2[1] + delta_x;
+				temp2[1] = temp2[1] - delta_x;
 				nw_x = getTileX(temp2[1], zoom);
 			}
 			while (nw_y == se_y) {
-				if (temp2[0] > 0)
-					temp2[0] = temp2[0] + delta_y;
-				else 
-					temp2[0] = temp2[0] - delta_y;
+				temp2[0] = temp2[0] + delta_y;
 				nw_y = getTileY(temp2[0], zoom);
 			}
-			if (temp2[0] > 0) {
-				double hight = temp2[0] - temp1[0];
-				hight = hight * 67 / 100;
-				temp2[0] = temp1[0] + hight;
-			}
-			else {
-				double hight = (-temp1[0]) - (-temp2[0]);
-				hight = hight * 67 / 100;
-				temp1[0] = temp2[0] - hight;
-			}
+			double hight = temp2[0] - temp1[0];
+			hight = hight * 67 / 100;
+			temp1[0] = temp2[0] - hight;
 			System.out.print("[\"images/f1/" + flags[count] + "\", "
 					+ df.format(temp1[0]) + ", "
 					+ df.format(temp1[1]) + ", "
