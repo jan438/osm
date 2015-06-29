@@ -19,8 +19,8 @@ public class ImagePosition {
 		decimalFormat.applyPattern(pattern);
 		double delta_x = 0.000001;
 		double delta_y = 0.000001;
-		location[0] = 26.031389;
-		location[1] = 50.514444;
+		location[0] = -23.701436;
+		location[1] = -46.697131;
 		System.out.println("" + decimalFormat.format(location[0]) + "  "
 				+ decimalFormat.format(location[1]));
 		int loc_x = getTileX(location[1], 17);
