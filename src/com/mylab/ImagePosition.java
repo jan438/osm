@@ -19,8 +19,8 @@ public class ImagePosition {
 		decimalFormat.applyPattern(pattern);
 		double delta_x = 0.000001;
 		double delta_y = 0.000001;
-		location[0] = 19.404167;
-		location[1] = -99.088889;
+		location[0] = 26.031389;
+		location[1] = 50.514444;
 		System.out.println("" + decimalFormat.format(location[0]) + "  "
 				+ decimalFormat.format(location[1]));
 		int loc_x = getTileX(location[1], 17);
@@ -51,9 +51,9 @@ public class ImagePosition {
 			ne_y = getTileY(temp2[0], 17);
 		}
 		southwest[0] = temp2[0];
-		System.out.println("ne " + decimalFormat.format(northeast[0]) + "  "
+		System.out.println("ne " + decimalFormat.format(northeast[0]) + ", "
 				+ decimalFormat.format(northeast[1]));
-		System.out.println("sw " + decimalFormat.format(southwest[0]) + "  "
+		System.out.println("sw " + decimalFormat.format(southwest[0]) + ", "
 				+ decimalFormat.format(southwest[1]));
 	}
 
